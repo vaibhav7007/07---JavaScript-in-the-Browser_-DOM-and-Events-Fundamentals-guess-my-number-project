@@ -13,8 +13,16 @@ console.log(document.querySelector('.guess').value);
 */
 
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
+// The Math.trunc() function returns the integer part of a number by removing any fractional digits.
+//The Math.random() function returns a floating-point, pseudo-random number in the range 0 to less than 1 (inclusive of 0, but not 1)
 let score = 20;
 let highscore = 0;
+
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+// here we created a function called displaymessage and the parameter will be the message and then in the function block all we will do is repeate the code setting the message and then we will set it equal to the message that is passed into the function
+
 document.querySelector('.number').textContent = secretNumber;
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -23,11 +31,15 @@ document.querySelector('.check').addEventListener('click', function () {
 
   // when there is no input
   if (!guess) {
-    document.querySelector('.message').textContent = '⛔ No number!';
+    // document.querySelector('.message').textContent = '⛔ No number!';
+    // we can write this statement which in line 35 to replace line 33 because we did this thing in line 21 & 22
+    displayMessage('⛔ No number!');
 
     // when player wins
   } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    // document.querySelector('.message').textContent = '🎉 Correct Number!';
+    //similary we also do it here
+    displayMessage('🎉 Correct Number!');
     document.querySelector('.number').textContent = secretNumber;
 
     document.querySelector('body').style.backgroundColor = '#60b347';
@@ -38,7 +50,27 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.highscore').textContent = highscore;
     }
 
+    //below is the code after refactoring our code it made our code much simpler cleaner and shorter
+
+    // when guess is wrong
+  } else if (guess !== secretNumber) {
+    if (score > 1) {
+      // document.querySelector('.message').textContent =
+      // guess > secretNumber ? '📈 Too high!' : '📉 Too low!';
+      displayMessage(guess > secretNumber ? '📈 Too high!' : '📉 Too low!');
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      // document.querySelector('.message').textContent = '💥 You lost the game!';
+      displayMessage('💥 You lost the game!');
+      document.querySelector('.score').textContent = 0;
+    }
+  }
+
+  /* we refactoring our code = the process of restructuring existing computer code—changing the factoring—without changing its external behavior.
+
     // when guess is too high
+
   } else if (guess > secretNumber) {
     if (score > 1) {
       document.querySelector('.message').textContent = '📈 Too high!';
@@ -50,6 +82,7 @@ document.querySelector('.check').addEventListener('click', function () {
     }
 
     // when guess is too low
+    
   } else if (guess < secretNumber) {
     if (score > 1) {
       document.querySelector('.message').textContent = '📉 Too low!';
@@ -60,13 +93,15 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.score').textContent = 0;
     }
   }
+  */
 });
 
 document.querySelector('.again').addEventListener('click', function () {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
 
-  document.querySelector('.message').textContent = 'Start guessing...';
+  // document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('.score').textContent = score;
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
